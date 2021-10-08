@@ -69,5 +69,5 @@ def delete(template_name: str, file_name: str):
 
 
 def list_all(template_name: str) -> List[str]:
-
-    return template_service.list_all()
+    path = template_service.template_path(template_name)
+    return filesystem_service.name_files_from_path(path)

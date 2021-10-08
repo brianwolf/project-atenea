@@ -2,6 +2,8 @@
 
 Diosa de la sabiduria quien te crea reportes basados en templates
 
+![alt](http://localhost:5000/api/v1/templates/prueba/files/lobo.jpg/img)
+
 ## :gear: Requisitos
 
 * python 3.9

@@ -27,3 +27,8 @@ def get(id: UUID) -> List[str]:
         result.extend(dirpath)
 
     return result
+
+
+def copy_to_workingdir(id: UUID, path: str):
+    path = f'{path}/*'
+    shutil.copy(path, fullpath(id))

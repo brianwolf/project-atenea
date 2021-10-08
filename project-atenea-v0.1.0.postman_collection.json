@@ -292,6 +292,29 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "get image",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{projec-atenea}}/api/v1/templates/prueba/files/lobo.jpg/img",
+											"host": [
+												"{{projec-atenea}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"templates",
+												"prueba",
+												"files",
+												"lobo.jpg",
+												"img"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						}

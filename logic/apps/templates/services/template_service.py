@@ -25,6 +25,11 @@ def get(name: str) -> List[str]:
 
 def add(name: str):
     path = f'{_TEMPLATES_PATH}/{name}'
+    if filesystem_service.exist_path(path):
+        raise AppException(
+            code=TemplateError.TEMPLATE_ALREADY_EXIST_ERROR,
+            msj=f'El template de nombre {name} ya existe'
+        )
     filesystem_service.create_folder(path)
 
 
@@ -54,7 +59,7 @@ def edit(name: str, new_name: str):
 
 
 def list_all() -> List[str]:
-    return filesystem_service.name_files_from_path(_TEMPLATES_PATH)
+    return filesystem_service.name_dirs_from_path(_TEMPLATES_PATH)
 
 
 def template_path(name: str):

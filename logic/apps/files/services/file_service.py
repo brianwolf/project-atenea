@@ -13,6 +13,11 @@ def get(template_name: str, file_name: str) -> str:
     template_service.get(template_name)
 
     path = f'{template_service.template_path(template_name)}/{file_name}'
+    if not filesystem_service.exist_path(path):
+        raise AppException(
+            code=FileError.FILE_NOT_EXIST_ERROR,
+            msj=f'No existe el archivo de nombre {file_name}'
+        )
     return filesystem_service.get_file(path).decode('utf8')
 
 
@@ -24,7 +29,7 @@ def get_bytes(template_name: str, file_name: str) -> bytes:
     if not filesystem_service.exist_path(path):
         raise AppException(
             code=FileError.FILE_NOT_EXIST_ERROR,
-            msj=f'No existe el template de nombre {file_name}'
+            msj=f'No existe el archivo de nombre {file_name}'
         )
     return filesystem_service.get_file(path)
 
@@ -34,7 +39,7 @@ def get_base64(template_name: str, file_name: str) -> bytes:
     template_service.get(template_name)
 
     result = get_bytes(template_name, file_name)
-    return base64.b64encode(result).decode('utf-8')
+    return base64.b64encode(result)
 
 
 def add(template_name: str, file_name: str, content: bytes):
@@ -42,10 +47,10 @@ def add(template_name: str, file_name: str, content: bytes):
     template_service.get(template_name)
 
     path = f'{template_service.template_path(template_name)}/{file_name}'
-    if not filesystem_service.exist_path(path):
+    if filesystem_service.exist_path(path):
         raise AppException(
-            code=FileError.FILE_NOT_EXIST_ERROR,
-            msj=f'No existe el template de nombre {file_name}'
+            code=FileError.FILE_ALREADY_EXIST_ERROR,
+            msj=f'El archivo de nombre {file_name} ya existe'
         )
     filesystem_service.create_file(path, content)
 
@@ -58,14 +63,11 @@ def delete(template_name: str, file_name: str):
     if not filesystem_service.exist_path(path):
         raise AppException(
             code=FileError.FILE_NOT_EXIST_ERROR,
-            msj=f'No existe el template de nombre {file_name}'
+            msj=f'No existe el archivo de nombre {file_name}'
         )
     filesystem_service.delete_path(path)
 
 
 def list_all(template_name: str) -> List[str]:
 
-    template_service.get(template_name)
-
-    path = template_service.template_path(template_name)
-    filesystem_service.name_files_from_path(path)
+    return template_service.list_all()

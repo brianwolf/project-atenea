@@ -1,5 +1,3 @@
-from os import name
-
 from flask import Blueprint, request
 from flask.json import jsonify
 from logic.apps.templates.services import template_service
@@ -23,9 +21,3 @@ def add(name: str):
 def delete(name: str):
     template_service.delete(name)
     return '', 200
-
-
-@blue_print.route('/', methods=['GET'])
-def list_all():
-    result = template_service.list_all()
-    return jsonify(result), 200

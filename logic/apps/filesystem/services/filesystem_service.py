@@ -10,11 +10,15 @@ def get_file(path: str) -> bytes:
 
 def create_file(path: str, content: bytes):
     with open(path, 'w') as file:
-        file.write(content)
+        file.write(content.decode('utf8'))
 
 
 def delete_path(path: str):
-    os.remove(path)
+
+    if os.path.isdir(path):
+        os.rmdir(path)
+    else:
+        os.remove(path)
 
 
 def move_file(path_in: str, path_out: str):
@@ -28,9 +32,16 @@ def name_files_from_path(path: str) -> List[str]:
     return result
 
 
+def name_dirs_from_path(path: str) -> List[str]:
+    result = []
+    for _, name_dir, _ in os.walk(path):
+        result += name_dir
+    return result
+
+
 def create_folder(path: str):
     if not os.path.exists(path):
-        os.mkdir(path)
+        os.makedirs(path, exist_ok=True)
 
 
 def exist_path(path: str) -> bool:

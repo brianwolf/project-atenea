@@ -1,31 +1,71 @@
 
-from datetime import datetime
+import base64
 from typing import List
-from uuid import uuid4
+
+from logic.apps.files.errors.file_error import FileError
+from logic.apps.filesystem.services import filesystem_service
+from logic.apps.templates.services import template_service
+from logic.libs.exception.exception import AppException
 
 
-def get(name: str) -> Example:
-    """
-    Devuelve un objeto de ejemplo
-    """
-    return Example(
-        string='string',
-        integer=2,
-        date_time=datetime.now(),
-        double=2.3,
-        uuid=uuid4())
+def get(template_name: str, file_name: str) -> str:
+
+    template_service.get(template_name)
+
+    path = f'{template_service.template_path(template_name)}/{file_name}'
+    return filesystem_service.get_file(path).decode('utf8')
 
 
-def add(m: Example) -> Example:
-    """
-    Guarda un Example
-    """
-    m.id = example_repository.add(m)
-    return m
+def get_bytes(template_name: str, file_name: str) -> bytes:
+
+    template_service.get(template_name)
+
+    path = f'{template_service.template_path(template_name)}/{file_name}'
+    if not filesystem_service.exist_path(path):
+        raise AppException(
+            code=FileError.FILE_NOT_EXIST_ERROR,
+            msj=f'No existe el template de nombre {file_name}'
+        )
+    return filesystem_service.get_file(path)
 
 
-def get_all() -> List[Example]:
-    """
-    Obtiene todos los Example guardados
-    """
-    return example_repository.get_all()
+def get_base64(template_name: str, file_name: str) -> bytes:
+
+    template_service.get(template_name)
+
+    result = get_bytes(template_name, file_name)
+    return base64.b64encode(result).decode('utf-8')
+
+
+def add(template_name: str, file_name: str, content: bytes):
+
+    template_service.get(template_name)
+
+    path = f'{template_service.template_path(template_name)}/{file_name}'
+    if not filesystem_service.exist_path(path):
+        raise AppException(
+            code=FileError.FILE_NOT_EXIST_ERROR,
+            msj=f'No existe el template de nombre {file_name}'
+        )
+    filesystem_service.create_file(path, content)
+
+
+def delete(template_name: str, file_name: str):
+
+    template_service.get(template_name)
+
+    path = f'{template_service.template_path(template_name)}/{file_name}'
+    if not filesystem_service.exist_path(path):
+        raise AppException(
+            code=FileError.FILE_NOT_EXIST_ERROR,
+            msj=f'No existe el template de nombre {file_name}'
+        )
+    filesystem_service.delete_path(path)
+
+
+def list_all(template_name: str) -> List[str]:
+
+    template_service.get(template_name)
+
+    path = template_service.template_path(template_name)
+    filesystem_service.name_files_from_path(path)

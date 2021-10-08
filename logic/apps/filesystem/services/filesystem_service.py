@@ -31,3 +31,7 @@ def name_files_from_path(path: str) -> List[str]:
 def create_folder(path: str):
     if not os.path.exists(path):
         os.mkdir(path)
+
+
+def exist_path(path: str) -> bool:
+    return os.path.exists(path)

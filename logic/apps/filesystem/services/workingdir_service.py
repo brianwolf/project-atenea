@@ -4,6 +4,8 @@ from pathlib import Path
 from typing import List
 from uuid import UUID, uuid4
 
+from sqlalchemy import true
+
 _TEMP_PATH = '/tmp'
 
 
@@ -30,5 +32,9 @@ def get(id: UUID) -> List[str]:
 
 
 def copy_to_workingdir(id: UUID, path: str):
-    path = f'{path}/*'
-    shutil.copy(path, fullpath(id))
+    path = f'{path}'
+    shutil.copytree(path, fullpath(id), dirs_exist_ok=true)
+
+
+def temp_path() -> str:
+    return _TEMP_PATH

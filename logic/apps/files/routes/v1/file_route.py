@@ -1,7 +1,6 @@
 from io import BytesIO
 
-from flask import (Blueprint, jsonify, render_template_string, request,
-                   send_file)
+from flask import Blueprint, jsonify, request, send_file
 from logic.apps.files.services import file_service
 
 blue_print = Blueprint(

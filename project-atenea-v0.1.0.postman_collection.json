@@ -116,6 +116,51 @@
 							]
 						},
 						{
+							"name": "reports",
+							"item": [
+								{
+									"name": "post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"from\": \"HTML\",\n    \"to\": \"PDF\",\n    \"template\": \"prueba\",\n    \"file\": \"template.html\",\n    \"report\": \"reporte.pdf\",\n    \"conf\": {},\n    \"data\": {\n        \"nombre\": \"LobezZzno\",\n        \"trabajo\": \"Feje de jefes\",\n        \"email\": \"lobezZzno@email.com\",\n        \"jobs\": [\n            {\n                \"nombre\": \"LA POSTA SA\",\n                \"puesto\": \"Jefe de jefes\",\n                \"anio\": \"2000 - 2019\",\n                \"descripcion\": \"Soy la posta no hay nada mas que decir :P\"\n            },\n            {\n                \"nombre\": \"Leafnoise SA\",\n                \"puesto\": \"Puteador de Java\",\n                \"anio\": \"2000 - 2020\",\n                \"descripcion\": \"Java, sos horrible y nadie te quiere\"\n            }\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{projec-atenea}}/api/v1/reports/",
+											"host": [
+												"{{projec-atenea}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"reports",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "files",
 							"item": [
 								{
@@ -159,11 +204,6 @@
 											"mode": "file",
 											"file": {
 												"src": "/home/brian/workspace/dockers-utiles/README.md"
-											},
-											"options": {
-												"raw": {
-													"language": "json"
-												}
 											}
 										},
 										"url": {

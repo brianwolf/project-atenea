@@ -13,15 +13,13 @@ blue_print = Blueprint(
 def post():
     j = request.json
     conf = Conf(
-        from_var=j['from'],
-        to_var=j['to'],
         template=j['template'],
         file=j['file'],
         report=j.get('report', 'report'),
         data=j.get('data', {}),
         conf=j.get('conf', {})
     )
-    _, path = report_service.exec(conf)
+    path = report_service.exec(conf)
 
     with open(path, 'rb') as f:
         result = f.read()

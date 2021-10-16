@@ -15,12 +15,9 @@ _MODULES_PATH = 'logic/apps/repo_modules'
 def exec(working_dir: str, module: ModuleType, in_file: str, out_file: str, conf: Dict[str, str]) -> str:
 
     original_workindir = os.getcwd()
-    in_path = f'{working_dir}/{in_file}'
-    out_path = f'{working_dir}/{out_file}'
-
     try:
         os.chdir(working_dir)
-        module.exec(in_path, out_path, conf)
+        module.exec(in_file, out_file, conf)
         os.chdir(original_workindir)
 
     except Exception as e:
@@ -31,6 +28,7 @@ def exec(working_dir: str, module: ModuleType, in_file: str, out_file: str, conf
         raise AppException(ModuleError.CONVERT_ERROR, str(e))
 
     final_path = f'/tmp/{out_file}'
+    out_path = os.path.join(working_dir, out_file)
     shutil.move(out_path, final_path)
 
     return final_path

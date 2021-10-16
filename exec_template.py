@@ -1,4 +1,8 @@
 #!/usr/local/bin/python
+
+# Ejemplo de comando funcionando
+#   python exec_template.py -t example -i template.html -o reporte.pdf -d example/datos.json
+
 import argparse
 import json
 import os
@@ -67,5 +71,5 @@ final_path = module_service.exec(
     template, module, os.path.basename(rendered_path), out_name, conf)
 
 shutil.move(final_path, out_name)
-os.remove(rendered_path)
+os.remove(os.path.join(template, rendered_path))
 print(f'Terminado')

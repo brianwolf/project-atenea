@@ -20,7 +20,7 @@ def exec(conf: Conf) -> Tuple[UUID, str]:
     final_path = module_service.exec(
         working_dir, module, in_file, out_file, conf.conf)
 
-    os.remove(f'{working_dir}/{in_file}')
+    os.remove( f'{working_dir}/{in_file}')
 
     return final_path
 
@@ -39,7 +39,7 @@ def render_template_in_new_file(template_path: str, data: Dict[str, str]) -> str
     with open(rendered_path, 'w') as f:
         f.write(rendered_content)
 
-    return rendered_path
+    return id
 
 
 def render_template(template_content: str, data: Dict[str, str]) -> str:

@@ -20,7 +20,7 @@ def exec(conf: Conf) -> Tuple[UUID, str]:
     final_path = module_service.exec(
         working_dir, module, in_file, out_file, conf.conf)
 
-    os.remove( f'{working_dir}/{in_file}')
+    os.remove(f'{working_dir}/{in_file}')
 
     return final_path
 

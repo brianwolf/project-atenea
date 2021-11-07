@@ -1,17 +1,16 @@
 #!/usr/local/bin/python
 
 # Ejemplo de comando funcionando
-#   python exec_template.py -t example -i template.html -o reporte.pdf -d example/datos.json
+#   python exec_template.py -t example/ -i template.html -o reporte.pdf -d example/datos.json
 
 import argparse
 import json
 import os
 import shutil
 
-from logic.apps.admin.config.variables import Vars, setup_vars
+from logic.apps.admin.config.variables import setup_vars
 from logic.apps.modules.services import module_service
 from logic.apps.reports.services import report_service
-from logic.apps.templates.services.template_service import template_path
 
 # VARIABLES
 parser = argparse.ArgumentParser()
@@ -55,7 +54,7 @@ if config_path:
 
 data = {}
 if data_path:
-    print(f'Datos cargada')
+    print(f'Datos cargados')
     with open(data_path, 'r') as f:
         data = json.loads(f.read())
 

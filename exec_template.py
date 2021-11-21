@@ -5,11 +5,10 @@
 
 import argparse
 import json
-import os
 import shutil
 
 from logic.apps.admin.config.variables import setup_vars
-from logic.apps.modules.services import module_service
+from logic.apps.reports.models.module_model import Conf
 from logic.apps.reports.services import report_service
 
 # VARIABLES
@@ -36,39 +35,34 @@ if not args.o:
     exit()
 
 
-template = args.t
-in_name = args.i
-out_name = args.o
-data_path = args.d
-config_path = args.c
-
-
 # CODIGO
 setup_vars()
 
 conf = {}
-if config_path:
+if args.c:
     print(f'Config cargada')
-    with open(config_path, 'r') as f:
+    with open(args.c, 'r') as f:
         conf = json.loads(f.read())
 
 data = {}
-if data_path:
+if args.d:
     print(f'Datos cargados')
-    with open(data_path, 'r') as f:
+    with open(args.d, 'r') as f:
         data = json.loads(f.read())
 
-rendered_path = report_service.render_template_in_new_file(
-    os.path.join(template, in_name), data)
-
-
-print(f'Modulo cargado')
-module = module_service.search_module(in_name, out_name)
+conf = Conf(
+    template=args.t,
+    file=args.i,
+    report=args.o,
+    data=data,
+    conf=conf,
+    workingdir=args.t
+)
 
 print(f'Ejecutando...')
-final_path = module_service.exec(
-    template, module, os.path.basename(rendered_path), out_name, conf)
 
-shutil.move(final_path, out_name)
-os.remove(os.path.join(template, rendered_path))
+final_path = report_service.exec(conf)
+
+shutil.move(final_path, args.o)
+
 print(f'Terminado')

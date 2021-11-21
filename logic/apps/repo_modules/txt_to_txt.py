@@ -2,8 +2,8 @@ import os
 import shutil
 from typing import Dict
 
-from_var = 'MD'
-to_var = 'MD'
+from_var = 'TXT'
+to_var = 'TXT'
 
 
 def exec(in_path: str, out_path: str, conf: Dict[str, str]):

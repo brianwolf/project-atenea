@@ -27,8 +27,8 @@ def exec(working_dir: str, module: ModuleType, in_file: str, out_file: str, conf
         logger.exception(e)
         raise AppException(ModuleError.CONVERT_ERROR, str(e))
 
-    final_path = f'/tmp/{out_file}'
     out_path = os.path.join(working_dir, out_file)
+    final_path = f'/tmp/{out_file}'
     shutil.move(out_path, final_path)
 
     return final_path
@@ -47,5 +47,10 @@ def search_module(in_file: str, out_file: str) -> ModuleSpec:
         if m.from_var == from_var and m.to_var == to_var:
             return m
 
-    msj = f'El modulo que cumpla con una conversion desde {from_var} a {to_var} no fue encontrado'
-    raise AppException(ModuleError.MODULE_NOT_FOUND_ERROR, msj)
+    default_module = [
+        m
+        for m in modules
+        if m.from_var == 'TXT' and m.to_var == 'TXT'
+    ][0]
+
+    return default_module

@@ -9,3 +9,4 @@ class Conf:
     report: str = 'report'
     data: Dict[str, object] = field(default_factory={})
     conf: Dict[str, object] = field(default_factory={})
+    workingdir: str = ''
